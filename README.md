@@ -1,6 +1,6 @@
 # Orthogonal Design
 
-A compact agent skill for designing software around independent reasons for change, derived from [AHdark’s article](https://www.ahdark.blog/decoupling-and-orthogonal-design-in-architectural-evolution/).
+A compact, English-language agent skill for scaffolding projects at any scale and evolving software boundaries. Based on [AHdark’s article](https://www.ahdark.blog/decoupling-and-orthogonal-design-in-architectural-evolution/).
 
 ## Install
 
@@ -8,14 +8,20 @@ A compact agent skill for designing software around independent reasons for chan
 bunx skills add AH-dark/orthogonal-design --skill orthogonal-design
 ```
 
-For Codex only, add `--agent codex`. Add `--global` for user-wide installation; the default is project-local.
+Add `--agent codex` to target Codex, or `--global` for user-wide installation.
 
 ## Use
 
-Ask your agent to use `orthogonal-design` to review coupling, plan a refactor, or define module boundaries. For example:
+> Use orthogonal-design to scaffold this project. Choose the smallest layout that fits its business complexity, reuse, and deployment requirements; follow the selected language and framework conventions.
 
-> Use orthogonal-design to isolate pricing changes from payment providers in this checkout flow. Keep the implementation as small as the current requirements allow.
+The [skill](skills/orthogonal-design/SKILL.md) routes to separate layouts:
 
-The [skill](skills/orthogonal-design/SKILL.md) contains the decision process. The [layout reference](skills/orthogonal-design/references/layouts.md) provides concrete feature, layered-module, and workspace structures without requiring any one of them.
+- [Single-purpose program](skills/orthogonal-design/references/single-purpose.md)
+- [Feature-oriented application](skills/orthogonal-design/references/feature-application.md)
+- [Modular monolith](skills/orthogonal-design/references/modular-monolith.md)
+- [Multi-package workspace](skills/orthogonal-design/references/package-workspace.md)
+- [Independent services](skills/orthogonal-design/references/independent-services.md)
 
-Uses the standard `skills/<name>/SKILL.md` layout with `name` and `description` frontmatter. No runtime dependencies or npm publishing are required. See the [skills CLI documentation](https://github.com/vercel-labs/skills/blob/main/docs/creating-skills.md).
+These are alternatives, not mandatory growth stages. Examples are language-neutral and adapt to native ecosystem conventions. Service-layout details extend the article's principles.
+
+Standard `skills/<name>/SKILL.md` packaging; no runtime dependencies or npm publication required. See the [skills CLI format](https://github.com/vercel-labs/skills/blob/main/docs/creating-skills.md).

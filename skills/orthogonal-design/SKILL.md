@@ -1,31 +1,32 @@
 ---
 name: orthogonal-design
-description: Design or refactor software boundaries around independent reasons for change. Use when reviewing coupling, defining module contracts, or evolving directories into packages.
+description: Scaffold projects at any scale or evolve existing structures around independent reasons for change. Use when choosing project layouts, defining module boundaries, or planning architectural refactors across languages and frameworks.
 ---
 
 # Orthogonal Design
 
-Keep each change within the boundary that owns its meaning. Optimize for how much unrelated knowledge a change requires, not the number of files, interfaces, or layers.
+Keep change with the responsibility that owns it. Choose structure from business complexity, reuse, and operational needs—not file counts or an assumed growth path.
 
-## Method
+## Scaffold or Evolve
 
-1. Start with a concrete expected change. Trace its rules, dependencies, data, and side effects; distinguish necessary business relationships from accidental implementation dependencies.
-2. Group decisions that change for the same business reason. Hide volatile decisions behind the smallest useful public contract. Similar fields or historical co-changes alone do not establish shared ownership.
-3. Define contracts by observable behavior: inputs, outcomes, invariants, failure, and timing. Type compatibility does not establish substitutability. Evolve the contract when a new capability changes its meaning.
-4. Make dependencies follow ownership. Let consumers define required capabilities when provider details would otherwise leak; translate genuine differences at integration boundaries and select implementations near the entry point. A stable, semantically suitable public API may be used directly.
-5. Examine coupling beyond imports: shared schemas and writes, sequencing, latency, retries, and partial failure. Asynchronous delivery moves these obligations; it does not remove them.
-6. Choose the smallest structural change that isolates the decision. Preserve behavior before moving files, then constrain public access and dependency direction. Use the [layout reference](references/layouts.md) only when choosing a concrete structure.
-7. Rehearse the original change. Identify what must change, what should remain independent, and why. Verify behavior, contract compatibility, and declared dependency rules separately; include a deliberately illegal dependency when adding a boundary check.
+1. Establish the product's use cases, language/framework, runtime, and deployment constraints from the request and existing project. Ask only about consequential unknowns; state reasonable defaults.
+2. Identify independently changing rules, integrations, and data owners. Separate accidental dependencies from necessary business relationships.
+3. Select the smallest suitable [layout](references/layouts.md); read only the relevant reference. Different modules may use different internal structures.
+4. Adapt directory names and files to the ecosystem's conventions. Create a runnable entry point, required configuration, and a minimal representative use case with appropriate verification. For an existing project, preserve behavior and change only the justified scope. Avoid empty layers, speculative abstractions, and unrelated infrastructure.
+5. Define small public contracts by meaning: inputs, outcomes, invariants, errors, and timing. Keep volatile details private; translate genuine differences at integration boundaries and choose implementations near the entry point.
+6. Verify the scaffold's documented run/build path and a representative behavior. Add boundary checks where boundaries need enforcement; validate new checks with an illegal dependency. Rehearse a likely change and explain its expected reach.
 
-## Guardrails
+## Boundary Rules
 
-- Independent implementation changes may still change downstream business results. Do not erase genuine relationships to make a dependency graph look cleaner.
-- Avoid speculative interfaces, universal shared models, forwarding-only adapters, and uniform layers. Resolve cycles by examining ownership or orchestration; merging a mistaken split can be correct.
-- Treat type imports, re-exports, aliases, and shared data as dependencies. Package exports restrict supported entry points, not filesystem access or security.
-- Introduce packages for real dependency, reuse, or build needs; introduce services for real deployment or operational needs. Neither follows automatically from a folder boundary.
+- Group code by shared reasons for change, not merely similar fields or historical co-changes. Stable public APIs can be used directly; adapters and consumer-owned ports should isolate real differences.
+- Keep business rules independent of external implementations. Runtime calls through injected capabilities need not follow source dependency direction.
+- Include type imports, re-exports, aliases, shared data, timing, and failure in coupling analysis. An acyclic import graph alone does not prove independence.
+- Preserve contract semantics across implementations. Pending work cannot masquerade as success; genuine new capabilities may require coordinated model changes.
+- Establish data ownership and explicit cross-boundary access. Async work needs handoff, retry, and duplicate-effect semantics; a local transaction does not include an external side effect.
+- Packages and services solve different problems. Neither more layers nor more deployment units is evidence of better design.
 
-## Result
+## Handoff
 
-Explain the change driver, ownership and contract decisions, expected propagation, and verification. For implementation tasks, apply the smallest justified change; for reviews, cite concrete evidence and prioritize actionable findings. State remaining uncertainty without claiming that a clean import graph proves independence.
+Report the chosen layout and its reason, runnable commands, verification results, and the concrete pressure that would justify a different boundary. Do not add speculative future directories.
 
-Derived from AHdark's [Decoupling and Orthogonal Design in Architectural Evolution](https://www.ahdark.blog/decoupling-and-orthogonal-design-in-architectural-evolution/).
+Based on AHdark's [Decoupling and Orthogonal Design in Architectural Evolution](https://www.ahdark.blog/decoupling-and-orthogonal-design-in-architectural-evolution/). Directory examples are illustrative; service layout details extend the article's principles.
